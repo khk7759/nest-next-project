@@ -1,0 +1,107 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  // output   = "../generated/prisma" // Use default folder (node_modules/.prisma/client)
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ==============================
+// AI vs Human 퀴즈 도메인
+// ==============================
+
+// 챌린지 (문제 세트)
+model Challenge {
+  id          String  @id @default(uuid())
+  slug        String  @unique // "ch00001"
+  title       String // "AI vs Human 챌린지 #1"
+  description String?
+  isActive    Boolean @default(true)
+
+  questions Question[]
+  sessions  GameSession[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([slug])
+  @@index([isActive])
+  @@map("challenges")
+}
+
+// 문제 (AI/Human 이미지 쌍)
+model Question {
+  id         String @id @default(uuid())
+  order      Int // 챌린지 내 문제 순서 (1~12)
+
+  // Human 이미지
+  humanImageUrl  String
+  humanAuthor    String? // "Hanna Lazar"
+  humanSourceUrl String? // 원본 이미지 URL (Unsplash 등)
+
+  // AI 이미지
+  aiImageUrl String
+  aiModel    String? // "Gemini 3 Pro Image", "Midjourney v6" 등
+
+  challengeId String
+  challenge   Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+
+  answers GameAnswer[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([challengeId, order])
+  @@index([challengeId])
+  @@map("questions")
+}
+
+// 게임 세션 (유저의 챌린지 플레이)
+model GameSession {
+  id          String    @id @default(uuid())
+  score       Int       @default(0)
+  completedAt DateTime?
+  timeTakenMs Int? // 총 소요 시간 (밀리초)
+
+  // 유저용 닉네임
+  nickname String?
+
+  challengeId String
+  challenge   Challenge @relation(fields: [challengeId], references: [id])
+
+  answers GameAnswer[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([challengeId])
+  @@index([score])
+  @@index([completedAt])
+  @@map("game_sessions")
+}
+
+// 유저의 각 문제 답변
+model GameAnswer {
+  id        String  @id @default(uuid())
+  selected  String  // 유저가 선택한 값 ("AI" / "HUMAN")
+  isCorrect Boolean
+
+  sessionId String
+  session   GameSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@unique([sessionId, questionId]) // 한 세션에서 같은 문제 중복 답변 방지
+  @@index([sessionId])
+  @@map("game_answers")
+}
