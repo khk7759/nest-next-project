@@ -1,3 +1,4 @@
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import 'dotenv/config';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
@@ -17,6 +18,14 @@ async function bootstrap() {
             transform: true, // 문자열 → 숫자 자동 변환
         }),
     );
+    const config = new DocumentBuilder()
+        .setTitle('AI vs Human Quiz API')
+        .setDescription('AI가 생성한 이미지를 찾는 퀴즈 플랫폼 API')
+        .setVersion('1.0')
+        .build();
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('api/docs', app, document);
+
     await app.listen(process.env.PORT ?? 3001);
 }
 bootstrap();
