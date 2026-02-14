@@ -1,3 +1,52 @@
 node_modules
 dist
+build
 .env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+settings.local.json
+
+# Next.js
+.next
+out
+
+# Debug
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Tests
+coverage
+.nyc_output
+
+# Temp
+.temp
+.tmp
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Prisma
+generated/prisma
+
+# OS
+.DS_Store
+
+# IDEs
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea
+.project
+.classpath
+*.launch
+.settings/
+*.sublime-workspace
