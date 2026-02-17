@@ -81,7 +81,8 @@ export default function QuizQuestion({ question, onNext, isLast }: QuizQuestionP
                         src={question.imageA}
                         alt={`문제 ${question.order} - A`}
                         fill
-                        className="object-cover"
+                        className="object-cover quiz-image"
+                        draggable={false}
                     />
                     <span className="absolute top-2 left-2 bg-black/60 text-white text-sm px-2 py-1 rounded">
                         A
@@ -96,7 +97,8 @@ export default function QuizQuestion({ question, onNext, isLast }: QuizQuestionP
                         src={question.imageB}
                         alt={`문제 ${question.order} - B`}
                         fill
-                        className="object-cover"
+                        className="object-cover quiz-image"
+                        draggable={false}
                     />
                     <span className="absolute top-2 left-2 bg-black/60 text-white text-sm px-2 py-1 rounded">
                         B
