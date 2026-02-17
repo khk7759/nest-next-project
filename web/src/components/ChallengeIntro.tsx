@@ -60,9 +60,7 @@ export default function ChallengeIntro({ onStart }: ChallengeIntroProps) {
                     }`}
                 >
                     <p className="text-lg text-gray-300 mb-10 leading-relaxed">
-                        AI가 생성한 이미지와 실제 사진을 비교하고,
-                        <br />
-                        당신의 감별 능력을 테스트해보세요.
+                        AI가 생성한 이미지와 실제 사진을 비교하고, 당신의 감별 능력을 테스트해보세요.
                     </p>
                 </div>
                 <div
