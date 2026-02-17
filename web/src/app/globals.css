@@ -18,3 +18,11 @@ body {
     text-wrap: balance;
   }
 }
+
+/* 퀴즈 이미지 저장 방지 */
+.quiz-image {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}
