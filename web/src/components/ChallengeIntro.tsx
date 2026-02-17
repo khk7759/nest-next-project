@@ -38,7 +38,7 @@ export default function ChallengeIntro({ onStart }: ChallengeIntroProps) {
                 <p className="text-sm font-medium tracking-widest text-purple-400 uppercase mb-4">
                     AI vs Human
                 </p>
-                <h1 className="text-5xl sm:text-6xl font-extrabold text-white mb-6 leading-tight h-[144px] sm:h-[168px]">
+                <h1 className="text-4xl sm:text-6xl font-extrabold text-white mb-6 leading-tight h-[120px] sm:h-[168px]">
                     {lines[0]}
                     {lines.length > 1 && (
                         <>
