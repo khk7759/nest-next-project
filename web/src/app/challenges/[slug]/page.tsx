@@ -179,7 +179,7 @@ export default function ChallengeDetailPage() {
                 />
             </div>
 
-            <QuizQuestion question={question} onNext={handleNext} isLast={currentIndex === total - 1} />
+            <QuizQuestion key={question.id} question={question} onNext={handleNext} isLast={currentIndex === total - 1} />
         </main>
     );
 }
