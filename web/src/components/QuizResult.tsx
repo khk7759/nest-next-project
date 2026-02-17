@@ -40,14 +40,23 @@ export default function QuizResult({ score, questionCount, timeTakenMs, onRetry 
     const handleShare = async () => {
         if (navigator.share) {
             try {
-                await navigator.share({
+                const shareData = {
                     title: 'AI 이미지 감별 퀴즈',
-                    text: resultText,
-                });
+                    text: `${questionCount}문제 중 ${score}문제 정답! (${Math.round((score / questionCount) * 100)}%)`,
+                    url: typeof window !== 'undefined' ? window.location.href : '',
+                };
+                await navigator.share(shareData);
             } catch (error) {
-                // 사용자가 공유를 취소하거나 에러 발생 시 무시
-                console.log('공유 취소 또는 에러:', error);
+                // 사용자가 공유를 취소한 경우 (AbortError)는 조용히 무시
+                if (error instanceof Error && error.name !== 'AbortError') {
+                    console.error('공유 실패:', error);
+                    // 공유 실패 시 클립보드에 복사
+                    handleCopyLink();
+                }
             }
+        } else {
+            // Web Share API를 지원하지 않는 브라우저는 클립보드에 복사
+            handleCopyLink();
         }
     };
 
