@@ -25,24 +25,36 @@ export default function QuizResult({ score, questionCount, timeTakenMs, onRetry 
     const resultText = `🧠 AI 이미지 감별 퀴즈\n${questionCount}문제 중 ${score}문제 정답! (${Math.round((score / questionCount) * 100)}%)${timeText}\n\n나도 도전하기 → ${typeof window !== 'undefined' ? window.location.origin : ''}`;
 
     const handleCopyLink = async () => {
-        await navigator.clipboard.writeText(resultText);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
+        try {
+            await navigator.clipboard.writeText(resultText);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        } catch (error) {
+            // 클립보드 접근 실패 시 fallback
+            console.error('클립보드 복사 실패:', error);
+            // 안드로이드에서 실패하면 사용자에게 알림
+            alert('복사에 실패했습니다. 브라우저 권한을 확인해주세요.');
+        }
     };
 
     const handleShare = async () => {
         if (navigator.share) {
-            await navigator.share({
-                title: 'AI 이미지 감별 퀴즈',
-                text: resultText,
-            });
+            try {
+                await navigator.share({
+                    title: 'AI 이미지 감별 퀴즈',
+                    text: resultText,
+                });
+            } catch (error) {
+                // 사용자가 공유를 취소하거나 에러 발생 시 무시
+                console.log('공유 취소 또는 에러:', error);
+            }
         }
     };
 
     const percentage = Math.round((score / questionCount) * 100);
 
     return (
-        <main className="min-h-screen p-8 flex flex-col items-center justify-center gap-6">
+        <main className="min-h-[100dvh] p-8 flex flex-col items-center justify-center gap-6">
             <h1 className="text-3xl font-bold text-white">완료!</h1>
             <p className="text-5xl font-extrabold text-white">
                 {score} / {questionCount}
