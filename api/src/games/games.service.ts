@@ -6,6 +6,7 @@ import {
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateSessionDto } from './dto/create-session.dto';
 import { SubmitAnswersDto } from './dto/submit-answers.dto';
+import { CheckAnswerDto } from './dto/check-answer.dto';
 import {
     AnswerResultDto,
     GameResultResponseDto,
@@ -45,6 +46,32 @@ export class GamesService {
         return { sessionId: session.id };
     }
 
+    async checkAnswer(dto: CheckAnswerDto) {
+        const question = await this.prisma.question.findUnique({
+            where: { id: dto.questionId },
+        });
+
+        if (!question) {
+            throw new NotFoundException(
+                `Question "${dto.questionId}" not found`,
+            );
+        }
+
+        const swap = shouldSwap(question.id);
+        // swap이면 A=ai,B=human / 아니면 A=human,B=ai → human을 골라야 정답
+        const isCorrect = swap
+            ? dto.selected === 'B'
+            : dto.selected === 'A';
+
+        return {
+            questionId: dto.questionId,
+            selected: dto.selected,
+            isCorrect,
+            aiImageUrl: question.aiImageUrl,
+            humanImageUrl: question.humanImageUrl,
+        };
+    }
+
     async submitAnswers(sessionId: string, dto: SubmitAnswersDto) {
         const session = await this.prisma.gameSession.findUnique({
             where: { id: sessionId },
@@ -75,20 +102,20 @@ export class GamesService {
 
         const questionMap = new Map(questions.map((q) => [q.id, q]));
 
-        // 채점: A/B → AI 이미지를 골랐는지 판정
+        // 채점: A/B → Human 이미지를 골랐는지 판정
         const answersData = dto.answers.map((a) => {
             const question = questionMap.get(a.questionId)!;
             const swap = shouldSwap(question.id);
 
             // swap이면: A=ai, B=human / swap이 아니면: A=human, B=ai
-            // 유저가 AI를 골라야 정답
-            const selectedIsAi = swap ? a.selected === 'A' : a.selected === 'B';
+            // 유저가 Human을 골라야 정답
+            const selectedIsHuman = swap ? a.selected === 'B' : a.selected === 'A';
 
             return {
                 sessionId,
                 questionId: a.questionId,
                 selected: a.selected,
-                isCorrect: selectedIsAi,
+                isCorrect: selectedIsHuman,
             };
         });
 

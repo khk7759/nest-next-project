@@ -2,6 +2,7 @@ import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { GamesService } from './games.service';
 import { CreateSessionDto } from './dto/create-session.dto';
 import { SubmitAnswersDto } from './dto/submit-answers.dto';
+import { CheckAnswerDto } from './dto/check-answer.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Games')
@@ -13,6 +14,12 @@ export class GamesController {
     @ApiOperation({ summary: '게임 세션 생성' })
     createSession(@Param('slug') slug: string, @Body() dto: CreateSessionDto) {
         return this.gamesService.createSession(slug, dto);
+    }
+
+    @Post('check-answer')
+    @ApiOperation({ summary: '단건 답변 체크 (정답 여부 즉시 확인)' })
+    checkAnswer(@Body() dto: CheckAnswerDto) {
+        return this.gamesService.checkAnswer(dto);
     }
 
     @Post(':sessionId/answers')
