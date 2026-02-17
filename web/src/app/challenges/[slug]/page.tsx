@@ -42,7 +42,7 @@ export default function ChallengeDetailPage() {
             startTimeRef.current = Date.now();
         }
 
-        fetch(`http://localhost:3001/api/challenges/${slug}`)
+        fetch(`${process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001/api'}/challenges/${slug}`)
             .then((res) => {
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 return res.json();
@@ -58,7 +58,7 @@ export default function ChallengeDetailPage() {
     const submitAllAnswers = async (allAnswers: { questionId: string; selected: 'A' | 'B' }[], timeTakenMs: number) => {
         if (!sessionId) return;
         try {
-            await fetch(`http://localhost:3001/api/games/${sessionId}/answers`, {
+            await fetch(`${process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001/api'}/games/${sessionId}/answers`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ answers: allAnswers, timeTakenMs }),
@@ -98,7 +98,7 @@ export default function ChallengeDetailPage() {
 
         // 새 세션 생성
         try {
-            const res = await fetch(`http://localhost:3001/api/games/${slug}/sessions`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001/api'}/games/${slug}/sessions`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({}),

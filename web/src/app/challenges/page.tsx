@@ -30,7 +30,7 @@ export default function ChallengesPage() {
     }, []);
 
     useEffect(() => {
-        fetch('http://localhost:3001/api/challenges')
+        fetch(`${process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001/api'}/challenges`)
             .then((res) => {
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 return res.json();
@@ -44,7 +44,7 @@ export default function ChallengesPage() {
         if (!selectedChallenge) return;
         setCreatingSession(true);
         try {
-            const res = await fetch(`http://localhost:3001/api/games/${selectedChallenge.slug}/sessions`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001/api'}/games/${selectedChallenge.slug}/sessions`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ nickname: nickname || undefined }),

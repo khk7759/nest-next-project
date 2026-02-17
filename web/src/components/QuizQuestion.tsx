@@ -33,7 +33,7 @@ export default function QuizQuestion({ question, onNext, isLast }: QuizQuestionP
         setChecking(true);
 
         try {
-            const res = await fetch('http://localhost:3001/api/games/check-answer', {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001/api'}/games/check-answer`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
