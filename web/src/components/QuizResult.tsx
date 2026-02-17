@@ -25,45 +25,36 @@ export default function QuizResult({ score, questionCount, timeTakenMs, onRetry 
     const resultText = `🧠 AI 이미지 감별 퀴즈\n${questionCount}문제 중 ${score}문제 정답! (${Math.round((score / questionCount) * 100)}%)${timeText}\n\n나도 도전하기 → ${typeof window !== 'undefined' ? window.location.origin : ''}`;
 
     const handleCopyLink = async () => {
-        try {
-            await navigator.clipboard.writeText(resultText);
-            setCopied(true);
-            setTimeout(() => setCopied(false), 2000);
-        } catch (error) {
-            // 클립보드 접근 실패 시 fallback
-            console.error('클립보드 복사 실패:', error);
-            // 안드로이드에서 실패하면 사용자에게 알림
-            alert('복사에 실패했습니다. 브라우저 권한을 확인해주세요.');
-        }
+        await navigator.clipboard.writeText(resultText);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
     };
 
     const handleShare = async () => {
-        if (navigator.share) {
-            try {
-                const shareData = {
-                    title: 'AI 이미지 감별 퀴즈',
-                    text: `${questionCount}문제 중 ${score}문제 정답! (${Math.round((score / questionCount) * 100)}%)`,
-                    url: typeof window !== 'undefined' ? window.location.href : '',
-                };
-                await navigator.share(shareData);
-            } catch (error) {
-                // 사용자가 공유를 취소한 경우 (AbortError)는 조용히 무시
-                if (error instanceof Error && error.name !== 'AbortError') {
-                    console.error('공유 실패:', error);
-                    // 공유 실패 시 클립보드에 복사
-                    handleCopyLink();
-                }
-            }
-        } else {
-            // Web Share API를 지원하지 않는 브라우저는 클립보드에 복사
+        const shareData: ShareData = {
+            title: 'AI 이미지 감별 퀴즈',
+            text: resultText,
+            url: typeof window !== 'undefined' ? window.location.href : '',
+        };
+
+        if (!navigator.share || (navigator.canShare && !navigator.canShare(shareData))) {
             handleCopyLink();
+            return;
+        }
+
+        try {
+            await navigator.share(shareData);
+        } catch (error) {
+            if (error instanceof Error && error.name !== 'AbortError') {
+                handleCopyLink();
+            }
         }
     };
 
     const percentage = Math.round((score / questionCount) * 100);
 
     return (
-        <main className="min-h-[100dvh] p-8 flex flex-col items-center justify-center gap-6">
+        <main className="min-h-screen p-8 flex flex-col items-center justify-center gap-6">
             <h1 className="text-3xl font-bold text-white">완료!</h1>
             <p className="text-5xl font-extrabold text-white">
                 {score} / {questionCount}
