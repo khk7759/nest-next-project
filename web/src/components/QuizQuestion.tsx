@@ -58,7 +58,7 @@ export default function QuizQuestion({ question, onNext, isLast }: QuizQuestionP
     };
 
     const getBorderClass = (choice: 'A' | 'B') => {
-        if (!selected) return 'border-transparent hover:border-purple-500';
+        if (!selected) return 'border-transparent';
         if (selected !== choice) return 'border-transparent opacity-50';
         if (!result) return 'border-purple-500';
         return result.isCorrect
@@ -75,7 +75,7 @@ export default function QuizQuestion({ question, onNext, isLast }: QuizQuestionP
                 <button
                     onClick={() => handleSelect('A')}
                     disabled={!!selected}
-                    className={`relative aspect-square rounded-lg overflow-hidden border-4 transition-all ${getBorderClass('A')}`}
+                    className={`relative aspect-square rounded-lg overflow-hidden border-4 transition-all ${!selected ? 'hover:scale-[1.02]' : ''} ${getBorderClass('A')}`}
                 >
                     <Image
                         src={question.imageA}
@@ -90,7 +90,7 @@ export default function QuizQuestion({ question, onNext, isLast }: QuizQuestionP
                 <button
                     onClick={() => handleSelect('B')}
                     disabled={!!selected}
-                    className={`relative aspect-square rounded-lg overflow-hidden border-4 transition-all ${getBorderClass('B')}`}
+                    className={`relative aspect-square rounded-lg overflow-hidden border-4 transition-all ${!selected ? 'hover:scale-[1.02]' : ''} ${getBorderClass('B')}`}
                 >
                     <Image
                         src={question.imageB}
