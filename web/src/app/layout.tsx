@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     siteName: "AI 이미지 감별 퀴즈",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "AI 이미지 감별 퀴즈",
     description: "AI가 생성한 이미지와 실제 사진을 구별할 수 있나요?",
   },
