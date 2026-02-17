@@ -71,11 +71,11 @@ export default function QuizQuestion({ question, onNext, isLast }: QuizQuestionP
             <p className="text-lg font-medium mb-4 text-center text-gray-300">
                 사람이 찍은 이미지를 골라주세요
             </p>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 <button
                     onClick={() => handleSelect('A')}
                     disabled={!!selected}
-                    className={`relative aspect-square rounded-lg overflow-hidden border-4 transition-all ${!selected ? 'hover:scale-[1.02]' : ''} ${getBorderClass('A')}`}
+                    className={`relative aspect-[4/3] sm:aspect-square rounded-lg overflow-hidden border-4 transition-all ${!selected ? 'hover:scale-[1.02]' : ''} ${getBorderClass('A')}`}
                 >
                     <Image
                         src={question.imageA}
@@ -91,7 +91,7 @@ export default function QuizQuestion({ question, onNext, isLast }: QuizQuestionP
                 <button
                     onClick={() => handleSelect('B')}
                     disabled={!!selected}
-                    className={`relative aspect-square rounded-lg overflow-hidden border-4 transition-all ${!selected ? 'hover:scale-[1.02]' : ''} ${getBorderClass('B')}`}
+                    className={`relative aspect-[4/3] sm:aspect-square rounded-lg overflow-hidden border-4 transition-all ${!selected ? 'hover:scale-[1.02]' : ''} ${getBorderClass('B')}`}
                 >
                     <Image
                         src={question.imageB}
