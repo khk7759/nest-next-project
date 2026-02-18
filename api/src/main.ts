@@ -20,7 +20,9 @@ async function bootstrap() {
     );
     const config = new DocumentBuilder()
         .setTitle('AI vs Human Quiz API')
-        .setDescription('AI가 생성한 이미지를 찾는 퀴즈 플랫폼 API')
+        .setDescription(
+            'AI가 생성한 이미지와 실제 사진을 구별하는 퀴즈 플랫폼 API',
+        )
         .setVersion('1.0')
         .build();
     const document = SwaggerModule.createDocument(app, config);
