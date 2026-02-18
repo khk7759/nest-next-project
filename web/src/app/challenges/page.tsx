@@ -73,7 +73,7 @@ export default function ChallengesPage() {
     if (!started) {
         return <ChallengeIntro onStart={() => {
             sessionStorage.setItem('challengeStarted', 'true');
-            setStarted(true);
+            setTimeout(() => setStarted(true), 300);
         }} />;
     }
 
