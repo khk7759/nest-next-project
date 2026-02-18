@@ -135,6 +135,7 @@ export class AdminController {
             throw new BadRequestException('파일이 없습니다.');
         }
         const result = await this.cloudinaryService.uploadImage(file);
-        return { url: result.secure_url };
+        const url = result.secure_url.replace('/upload/', '/upload/f_auto,q_auto,w_800/');
+        return { url };
     }
 }
