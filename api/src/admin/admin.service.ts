@@ -20,6 +20,8 @@ export class AdminService {
 
     // ── Auth ──
     login(dto: LoginDto) {
+        console.log('[login] ENV:', process.env.ADMIN_USERNAME, process.env.ADMIN_PASSWORD);
+        console.log('[login] DTO:', dto.username, dto.password);
         if (
             dto.username !== process.env.ADMIN_USERNAME ||
             dto.password !== process.env.ADMIN_PASSWORD
