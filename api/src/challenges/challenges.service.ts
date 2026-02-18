@@ -22,9 +22,9 @@ export class ChallengesService {
 
     async findAll(): Promise<ChallengeResponseDto[]> {
         const challenges = await this.prisma.challenge.findMany({
-            where: { isActive: true },
+            where: { isActive: true, questions: { some: {} } },
             include: { _count: { select: { questions: true } } },
-            orderBy: { createdAt: 'desc' },
+            orderBy: [{ order: 'asc' }, { createdAt: 'desc' }],
         });
 
         return challenges.map((c) => ({
@@ -32,7 +32,7 @@ export class ChallengesService {
             slug: c.slug,
             title: c.title,
             description: c.description,
-            questionCount: c._count.questions,
+            questionCount: c._count.questions as number,
             createdAt: c.createdAt,
         }));
     }
@@ -47,7 +47,7 @@ export class ChallengesService {
 
         if (!challenge) {
             throw new NotFoundException(
-                `Challenge with slug "${slug}" not found`,
+                `챌린지("${slug}")를 찾을 수 없습니다.`,
             );
         }
 
