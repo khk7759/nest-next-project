@@ -24,6 +24,7 @@ async function bootstrap() {
             'AI가 생성한 이미지와 실제 사진을 구별하는 퀴즈 플랫폼 API',
         )
         .setVersion('1.0')
+        .addBearerAuth()
         .build();
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('api/docs', app, document);
