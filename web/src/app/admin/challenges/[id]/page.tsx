@@ -4,7 +4,6 @@ import { useEffect, useState, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import AlertModal from '@/components/AlertModal';
-import ImageUploadField from '@/components/admin/ImageUploadField';
 import QuestionForm, { QuestionFormState } from '@/components/admin/QuestionForm';
 import Image from 'next/image';
 
@@ -296,8 +295,6 @@ export default function EditChallengePage() {
             </main>
         );
     }
-
-    const token = localStorage.getItem('adminToken') || '';
 
     return (
         <>
