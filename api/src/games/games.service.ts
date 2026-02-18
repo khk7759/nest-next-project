@@ -32,7 +32,7 @@ export class GamesService {
 
         if (!challenge) {
             throw new NotFoundException(
-                `Challenge with slug "${slug}" not found`,
+                `챌린지("${slug}")를 찾을 수 없습니다.`,
             );
         }
 
@@ -53,15 +53,13 @@ export class GamesService {
 
         if (!question) {
             throw new NotFoundException(
-                `Question "${dto.questionId}" not found`,
+                `문제("${dto.questionId}")를 찾을 수 없습니다.`,
             );
         }
 
         const swap = shouldSwap(question.id);
         // swap이면 A=ai,B=human / 아니면 A=human,B=ai → human을 골라야 정답
-        const isCorrect = swap
-            ? dto.selected === 'B'
-            : dto.selected === 'A';
+        const isCorrect = swap ? dto.selected === 'B' : dto.selected === 'A';
 
         return {
             questionId: dto.questionId,
@@ -78,11 +76,13 @@ export class GamesService {
         });
 
         if (!session) {
-            throw new NotFoundException(`Session "${sessionId}" not found`);
+            throw new NotFoundException(
+                `세션("${sessionId}")를 찾을 수 없습니다.`,
+            );
         }
 
         if (session.completedAt) {
-            throw new BadRequestException('Session already completed');
+            throw new BadRequestException('세션이 이미 완료되었습니다.');
         }
 
         // 답변에 해당하는 문제들 조회
@@ -96,7 +96,7 @@ export class GamesService {
 
         if (questions.length !== questionIds.length) {
             throw new BadRequestException(
-                'Some question IDs are invalid for this challenge',
+                '이 챌린지에 해당하지 않는 문제 ID가 있습니다.',
             );
         }
 
@@ -109,7 +109,9 @@ export class GamesService {
 
             // swap이면: A=ai, B=human / swap이 아니면: A=human, B=ai
             // 유저가 Human을 골라야 정답
-            const selectedIsHuman = swap ? a.selected === 'B' : a.selected === 'A';
+            const selectedIsHuman = swap
+                ? a.selected === 'B'
+                : a.selected === 'A';
 
             return {
                 sessionId,
@@ -149,11 +151,13 @@ export class GamesService {
         });
 
         if (!session) {
-            throw new NotFoundException(`Session "${sessionId}" not found`);
+            throw new NotFoundException(
+                `세션("${sessionId}")를 찾을 수 없습니다.`,
+            );
         }
 
         if (!session.completedAt) {
-            throw new BadRequestException('Session not yet completed');
+            throw new BadRequestException('세션이 완료되지 않았습니다.');
         }
 
         const answers: AnswerResultDto[] = session.answers.map((a) => ({
