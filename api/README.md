@@ -69,11 +69,10 @@ api/
 
 ## Swagger
 
-개발 서버 실행 후 아래 주소에서 API 문서를 확인하고 테스트할 수 있습니다.
+API 문서를 확인하고 테스트할 수 있습니다.
 
-```
-http://localhost:3001/api/docs
-```
+- **배포:** https://nest-next-project-production.up.railway.app/api/docs
+- **로컬:** http://localhost:3001/api/docs
 
 ## 시작하기
 
