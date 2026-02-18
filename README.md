@@ -141,7 +141,7 @@ cd web && npm run dev
 ```
 
 백엔드: http://localhost:3001
-프론트엔드: http://localhost:3000
+프론트엔드: http://localhost:3000 (Next.js 기본값)
 
 ## 데이터 모델
 
