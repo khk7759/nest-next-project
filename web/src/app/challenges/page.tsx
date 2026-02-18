@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import ChallengeIntro from '../../components/ChallengeIntro';
 import NicknameModal from '../../components/NicknameModal';
 
@@ -22,6 +23,13 @@ export default function ChallengesPage() {
     const [error, setError] = useState<string | null>(null);
     const [selectedChallenge, setSelectedChallenge] = useState<Challenge | null>(null);
     const [creatingSession, setCreatingSession] = useState(false);
+
+    const isNewChallenge = (createdAt: string) => {
+        const created = new Date(createdAt);
+        const now = new Date();
+        const diffInDays = (now.getTime() - created.getTime()) / (1000 * 60 * 60 * 24);
+        return diffInDays <= 7;
+    };
 
     useEffect(() => {
         if (sessionStorage.getItem('challengeStarted') === 'true') {
@@ -102,7 +110,7 @@ export default function ChallengesPage() {
             {challenges.length === 0 ? (
                 <p className="text-gray-400 text-center">챌린지가 없습니다.</p>
             ) : (
-                <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-2">
                     {challenges.map((c) => (
                         <li key={c.id}>
                             <button
@@ -113,9 +121,16 @@ export default function ChallengesPage() {
                                     <div className="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center text-lg">
                                         🧠
                                     </div>
-                                    <h2 className="text-lg font-bold text-white group-hover:text-purple-300 transition-colors">
-                                        {c.title}
-                                    </h2>
+                                    <div className="flex-1 flex items-center gap-2">
+                                        <h2 className="text-lg font-bold text-white group-hover:text-purple-300 transition-colors">
+                                            {c.title}
+                                        </h2>
+                                        {isNewChallenge(c.createdAt) && (
+                                            <span className="px-2 py-0.5 text-xs font-bold rounded bg-gradient-to-r from-pink-500 to-purple-500 text-white animate-pulse">
+                                                NEW
+                                            </span>
+                                        )}
+                                    </div>
                                 </div>
                                 {c.description && (
                                     <p className="text-sm text-gray-400 mb-4 line-clamp-2">
@@ -143,6 +158,9 @@ export default function ChallengesPage() {
                     loading={creatingSession}
                 />
             )}
+            <Link href="/admin" className="fixed bottom-6 right-6 text-xs text-gray-600 hover:text-gray-400 transition-colors">
+                관리자
+            </Link>
         </main>
     );
 }
