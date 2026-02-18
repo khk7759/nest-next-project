@@ -22,7 +22,7 @@ export class ChallengesService {
 
     async findAll(): Promise<ChallengeResponseDto[]> {
         const challenges = await this.prisma.challenge.findMany({
-            where: { isActive: true },
+            where: { isActive: true, questions: { some: {} } },
             include: { _count: { select: { questions: true } } },
             orderBy: [{ order: 'asc' }, { createdAt: 'desc' }],
         });
