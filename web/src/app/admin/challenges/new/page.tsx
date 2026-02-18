@@ -8,7 +8,6 @@ const API = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001/api';
 
 export default function NewChallengePage() {
     const router = useRouter();
-    const [slug, setSlug] = useState('');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [loading, setLoading] = useState(false);
@@ -38,7 +37,6 @@ export default function NewChallengePage() {
                     Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify({
-                    slug,
                     title,
                     description: description || undefined,
                 }),
@@ -74,20 +72,6 @@ export default function NewChallengePage() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">
-                <div>
-                    <label className="block text-sm text-gray-400 mb-1">
-                        Slug (ch + 5자리 숫자)
-                    </label>
-                    <input
-                        type="text"
-                        value={slug}
-                        onChange={(e) => setSlug(e.target.value)}
-                        placeholder="ch00001"
-                        pattern="^ch\d{5}$"
-                        className="w-full px-4 py-2 rounded-lg bg-white/5 border border-purple-500/20 text-white focus:outline-none focus:border-purple-400"
-                        required
-                    />
-                </div>
                 <div>
                     <label className="block text-sm text-gray-400 mb-1">제목</label>
                     <input
