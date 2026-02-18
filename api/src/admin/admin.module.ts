@@ -13,7 +13,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
         PassportModule, // Passport 인증 프레임워크
         JwtModule.register({
             secret: process.env.JWT_SECRET, // .env에서 비밀키 읽음
-            signOptions: { expiresIn: '24h' }, // 토큰 유효기간 24시간
+            signOptions: { expiresIn: '1h' }, // 토큰 유효기간 1시간
         }),
     ],
     controllers: [AdminController],
