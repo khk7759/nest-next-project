@@ -20,10 +20,11 @@ datasource db {
 // 챌린지 (문제 세트)
 model Challenge {
   id          String  @id @default(uuid())
-  slug        String  @unique // "ch00001"
-  title       String // "AI vs Human 챌린지 #1"
+  slug        String  @unique
+  title       String
   description String?
   isActive    Boolean @default(true)
+  order       Int     @default(0)
 
   questions Question[]
   sessions  GameSession[]
@@ -33,13 +34,14 @@ model Challenge {
 
   @@index([slug])
   @@index([isActive])
+  @@index([order])
   @@map("challenges")
 }
 
 // 문제 (AI/Human 이미지 쌍)
 model Question {
   id         String @id @default(uuid())
-  order      Int // 챌린지 내 문제 순서 (1~12)
+  order      Int
 
   // Human 이미지
   humanImageUrl  String
