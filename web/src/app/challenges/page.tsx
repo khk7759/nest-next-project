@@ -115,7 +115,7 @@ export default function ChallengesPage() {
                         <li key={c.id}>
                             <button
                                 onClick={() => setSelectedChallenge(c)}
-                                className="group block w-full text-left rounded-xl border border-purple-500/20 bg-white/5 p-6 hover:bg-purple-500/10 hover:border-purple-400/40 transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-purple-500/10"
+                                className="group block w-full text-left rounded-xl border border-purple-500/20 bg-white/5 p-6 hover:bg-purple-500/10 hover:border-purple-400/40 transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-purple-500/10 focus:outline-none"
                             >
                                 <div className="flex items-center gap-3 mb-4">
                                     <div className="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center text-lg">
