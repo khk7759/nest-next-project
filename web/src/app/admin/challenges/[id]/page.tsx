@@ -318,7 +318,7 @@ export default function EditChallengePage() {
                 <div className="space-y-4">
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-sm text-gray-400 mb-1">Slug</label>
+                            <label className="block text-sm text-gray-400 mb-1">채널ID</label>
                             <input
                                 type="text"
                                 value={slug}
