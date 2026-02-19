@@ -5,7 +5,7 @@ import { ChallengeDetailResponseDto } from './dto/challenge-detail-response.dto'
 import { QuestionResponseDto } from './dto/question-response.dto';
 
 /**
- * 결정론적 셔플: question ID의 간단한 해시로 A/B 배치 결정.
+ * question ID의 간단한 해시로 A/B 배치 결정.
  * 같은 문제는 항상 같은 배치를 반환.
  */
 function shouldSwap(questionId: string): boolean {
@@ -32,7 +32,7 @@ export class ChallengesService {
             slug: c.slug,
             title: c.title,
             description: c.description,
-            questionCount: c._count.questions as number,
+            questionCount: c._count.questions,
             createdAt: c.createdAt,
         }));
     }
